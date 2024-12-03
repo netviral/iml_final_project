@@ -7,25 +7,42 @@ import os
 import joblib  # For saving and loading the model
 
 # Load CSV
-csv_file = "../processed_data/metrics_with_labels.csv"  # Replace with your file name
+csv_file = "../processed_data/Final_Training_Done.csv"  # Replace with your file name
 data = pd.read_csv(csv_file)
+# print(data.columns)
+data.columns = data.columns.str.strip()
 
 # Prepare features and labels
-feature_columns = [
-    "total_words", "unique_words", "total_characters", "total_sentences",
-    "total_paragraphs", "average_word_length", "complex_word_count",
-    "stopword_ratio", "rare_word_ratio", "lexical_diversity",
-    "sentence_complexity", "flesch_reading_ease", "gunning_fog_index",
-    "cosine_similarity_redundancy", "cosine_similarity_coherence",
-    "sentence_length_variation", "complexity_variation", "avg_sentence_length",
-    "zipfs_law_adherence", "pos_diversity", "noun_verb_ratio",
-    "adjective_adverb_ratio", "grammar_error_density",
-    "passive_to_active_ratio", "punctuation_density",
-    "first_person_pronouns_density", "second_person_pronouns_density",
-    "third_person_pronouns_density", "repetition_frequency"
+# feature_columns = [
+#     "total_words", "unique_words", "total_characters", "total_sentences",
+#     "total_paragraphs", "average_word_length", "complex_word_count",
+#     "stopword_ratio", "rare_word_ratio", "lexical_diversity",
+#     "sentence_complexity", "flesch_reading_ease", "gunning_fog_index",
+#     "cosine_similarity_redundancy", "cosine_similarity_coherence",
+#     "sentence_length_variation", "complexity_variation", "avg_sentence_length",
+#     "zipfs_law_adherence", "pos_diversity", "noun_verb_ratio",
+#     "adjective_adverb_ratio", "grammar_error_density",
+#     "passive_to_active_ratio", "punctuation_density",
+#     "first_person_pronouns_density", "second_person_pronouns_density",
+#     "third_person_pronouns_density", "repetition_frequency"
+# ]
+
+feature_columns=[
+    "average_word_length", 
+    "complex_word_density", "stopword_ratio", "rare_word_ratio", "sentence_complexity", 
+    "flesch_reading_ease", "gunning_fog_index", "cosine_similarity_redundancy", "cosine_similarity_coherence", 
+    "sentence_length_variation", "complexity_variation", "avg_sentence_length", 
+    "zipfs_law_adherence", "pos_diversity", "noun_verb_ratio", "adjective_adverb_ratio", 
+    "grammar_error_density", "passive_to_active_ratio", 
+    "punctuation_density", "first_person_pronouns_density", 
+    "second_person_pronouns_density", "third_person_pronouns_density", 
+    "repetition_frequency",  
+    'lexical_richness_MTLD', 'avg_dependency_score', 
+    'avg_dependency_length', 'avg_discourse_markers', 'avg_modals', 'avg_epistemic_markers', 
+    'avg_nominalisations', "function_word_density", "avg_entropy", "avg_caesura"
 ]
 X = data[feature_columns]
-y = data['label']  # Replace 'label' with your actual label column
+y = data['generated']  # Replace 'label' with your actual label column
 
 # Split into train and test
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)

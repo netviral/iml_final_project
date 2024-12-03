@@ -4,9 +4,6 @@ import csv
 import pandas as pd
 from helper_functions import process_text
 
-# Load the CSV file
-df = pd.read_csv('new_small_data.csv', delimiter=',')
-
 def process_csv(input_file, output_file, log_file):
     # Check if the output file exists, otherwise initialize it with headers
     if not os.path.exists(output_file):
@@ -45,6 +42,7 @@ def process_csv(input_file, output_file, log_file):
         print(f"Processed row {start_row}")  # Log progress
 
 # File paths
-input_file = "cleaned_training_human.csv"
-output_file = "processed_training_human.csv"
+input_file = "./processed_data/Final_Training_Dataset_Cleaned.csv"
+output_file = "./processed_data/Final_Training_Done.csv"
 log_file = "progress.log"
+process_csv(input_file,output_file,log_file)

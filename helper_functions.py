@@ -486,9 +486,7 @@ def process_text(text):
     punctuation_density = total_punctuations / total_words
     pronoun_density = pronoun_usage(text, total_words)
     repetition_frequency_value = repetition_frequency(text)
-    
     doc = nlp(text)
-    
     # Get various features
     dep_score = calculate_dep_score(text)
     dep_length = calculate_dep_length(text)
@@ -497,7 +495,6 @@ def process_text(text):
     modals_count = count_total_modals(text)
     epistemic_count = find_epistemic_markers(text)
     nominalisations_count = nominalisation_counter(doc)
-
     # Average counts per sentence (you can apply this for any feature you want)
     avg_dep_score = average_per_sentence(dep_score, total_sentences)
     avg_dep_length = average_per_sentence(dep_length, total_sentences)
@@ -513,10 +510,9 @@ def process_text(text):
             "total_sentences": total_sentences,
             "total_paragraphs": total_paragraphs,
             "average_word_length": average_word_length,
-            "complex_word_count": complex_word_count / total_words,
+            "complex_word_density": complex_word_count / total_words,
             "stopword_ratio": stopword_ratio,
             "rare_word_ratio": rare_word_ratio,
-            "lexical_diversity": lex_richness,
             "sentence_complexity": sentence_complexity,
             "flesch_reading_ease": flesch_reading_ease,
             "gunning_fog_index": gunning_fog_index,
