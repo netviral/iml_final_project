@@ -18,7 +18,6 @@ import math
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from textblob import TextBlob
-# Load spaCy model globally
 nlp = spacy.load("en_core_web_sm")
 
 # SSL workaround for downloading NLTK data
@@ -29,7 +28,7 @@ except AttributeError:
 else:
     ssl._create_default_https_context = _create_unverified_https_context
 
-# Download necessary NLTK resources
+# Download necessary NLTK resources, uncomment if running first time
 # nltk.download('punkt')
 # nltk.download('averaged_perceptron_tagger')
 # nltk.download('cmudict')
@@ -222,7 +221,6 @@ def calculate_sentence_complexity(sentences):
         # Skip sentences identified as lists
         if re.match(r"^\d+\.|\*|\-|\([a-zA-Z]*\)|[a-zA-Z]\)", sentence.strip()):
             continue
-        
         # Otherwise, count clauses (assume each ',' introduces a clause)
         clause_count += sentence.count(',') + 1
         valid_sentence_count += 1
@@ -231,25 +229,17 @@ def calculate_sentence_complexity(sentences):
 
 
 def clean_text(text):
-    """Cleans and preprocesses the input text."""
     return text
     # return re.sub(r'\s+', ' ', text.strip())
 
 def tokenize_words(text):
-    """Tokenizes the text and filters out punctuation."""
     words = word_tokenize(text)
     return [word for word in words if word.isalpha()]
 
 def calculate_variation(values):
-    """
-    Calculates the variation (standard deviation) of a list of values.
-    """
     return np.std(values)
 
 def calculate_sentence_complexity(sentences):
-    """
-    Calculates complexity and variation of clauses per sentence.
-    """
     clause_counts = []
     valid_sentences = []
 
@@ -269,9 +259,6 @@ def calculate_sentence_complexity(sentences):
     return complexity_variation
 
 def analyze_sentence_lengths(sentences):
-    """
-    Analyzes sentence length and calculates variation.
-    """
     lengths = [len(sentence.split()) for sentence in sentences]
     avg_length = np.mean(lengths) if lengths else 0
     length_variation = calculate_variation(lengths) if lengths else 0
@@ -279,15 +266,6 @@ def analyze_sentence_lengths(sentences):
     return avg_length, length_variation
 
 def pos_diversity_mtld(text, window_size=10, threshold=0.1):
-    """
-    Calculate the MTLD-like POS diversity score for a given text.
-    Args:
-        text (str): The input text to analyze.
-        window_size (int): The size of the sliding window in tokens (default 10).
-        threshold (float): The threshold for diversity difference to reset the count (default 0.1).
-    Returns:
-        float: The MTLD-like POS diversity score.
-    """
     # Tokenize the text and calculate POS tags
     tokens = word_tokenize(text)
     tags = [tag for word, tag in pos_tag(tokens)]
@@ -387,25 +365,15 @@ def calculate_entropy(text):
     return entropy
 
 def count_function_words(text, function_words):
-    """
-    Counts the number of function words in the given text.
-    """
     words = text.lower().split()  # Tokenize by splitting on whitespace
     count = sum(1 for word in words if word in function_words)
     return count
 
 def load_function_words(file_path):
-    """
-    Reads the function words from a file and returns them as a set.
-    Each function word is assumed to be on a separate line.
-    """
     with open(file_path, 'r') as file:
         function_words = {line.strip().lower() for line in file}
     return function_words
 def function_word_density(text, function_words):
-    """
-    Calculates the proportion of function words in the text.
-    """
     words = text.lower().split()
     total_words = len(words)
     if total_words == 0:
